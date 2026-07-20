@@ -1,0 +1,33 @@
+# Datasets (regenerated via tonic: see README)
+data/
+./data/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.Python
+*.egg-info/
+build/
+dist/
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Trained model weights/checkpoints
+*.h5
+*.keras
+checkpoints/
+
+# OS-specific junk
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+.vscode/
+.idea/
