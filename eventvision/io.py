@@ -83,5 +83,3 @@ def load_sample(dataset, index):
     events = standardize_events(events)
     sensor_size = dataset.sensor_size[:2]  # tonic stores (W, H, num_polarity_channels)
     return events, label, sensor_size
-
-
