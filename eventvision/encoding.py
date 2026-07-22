@@ -61,7 +61,7 @@ def events_to_frame_decay(events, sensor_size, tau=5000.0, t_ref=None):
     Accumulates events with an exponentially decaying weight based on
     how long ago each event occurred relative to t_ref.
 
-    tau: decay time constant (same units as timestamps) — smaller tau
+    tau: decay time constant (same units as timestamps): smaller tau
     means older events fade out faster.
     t_ref: reference "now" moment; defaults to the latest timestamp
     in the given events.
@@ -115,6 +115,7 @@ def events_to_frame(events, sensor_size, strategy='fixed_time', **kwargs):
         'decay': events_to_frame_decay,
         'voxel': events_to_frame_voxel,
     }
+    
     if strategy not in strategies:
         raise ValueError(f"Unknown strategy '{strategy}', choose from {list(strategies)}")
 
