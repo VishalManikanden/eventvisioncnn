@@ -54,11 +54,3 @@ def make_dataset(source_dataset, strategy='fixed_time', batch_size=32,
     ds = ds.prefetch(tf.data.AUTOTUNE)
 
     return ds
-
-
-train_ds = make_dataset(nmnist_train, strategy='fixed_time', batch_size=32)
-
-for frames, labels in train_ds.take(1):
-    print(frames.shape)        # expect (32, 34, 34, 2)
-    print(labels.shape)        # expect (32,)
-    print(labels.numpy()[:59])  # a handful of real digit labels, e.g. [0, 3, 7, 1, 9]
