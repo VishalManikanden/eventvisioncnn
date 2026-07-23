@@ -2,6 +2,10 @@
 data/
 ./data/
 
+# Models
+models/
+./models/
+
 # Python
 __pycache__/
 *.pyc
