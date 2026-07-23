@@ -115,7 +115,7 @@ def events_to_frame(events, sensor_size, strategy='fixed_time', **kwargs):
         'decay': events_to_frame_decay,
         'voxel': events_to_frame_voxel,
     }
-    
+
     if strategy not in strategies:
         raise ValueError(f"Unknown strategy '{strategy}', choose from {list(strategies)}")
 
