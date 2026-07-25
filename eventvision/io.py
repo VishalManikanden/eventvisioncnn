@@ -4,6 +4,7 @@ import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 os.environ['SSL_CERT_FILE'] = certifi.where()
 os.environ['SSL_CERT_DIR'] = os.path.dirname(certifi.where())
 
@@ -83,3 +84,15 @@ def load_sample(dataset, index):
     events = standardize_events(events)
     sensor_size = dataset.sensor_size[:2]  # tonic stores (W, H, num_polarity_channels)
     return events, label, sensor_size
+
+g_events, g_label, g_sensor_size = load_sample(gesture_train, 0)
+
+# print("label:", g_label)
+# print("num events:", g_events.shape)
+# print("sensor size:", g_sensor_size)
+# print("t range:", g_events[:, 2].min(), "to", g_events[:, 2].max())
+
+# all_labels = np.array([gesture_train[i][1] for i in range(len(gesture_train))])
+# print("unique labels:", np.unique(all_labels))
+# print("num classes:", len(np.unique(all_labels)))
+

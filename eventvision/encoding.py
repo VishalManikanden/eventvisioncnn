@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def accumulate_counts(events, sensor_size, weights=None):
     """
     events: (N, 4) array, columns = [x, y, t, p]
