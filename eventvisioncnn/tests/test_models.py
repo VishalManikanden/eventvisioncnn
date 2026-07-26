@@ -1,5 +1,5 @@
 import numpy as np
-from eventvision.models import build_cnn, compile_cnn
+from eventvisioncnn.models import build_cnn, compile_cnn
 
 
 def test_build_cnn_output_shape():

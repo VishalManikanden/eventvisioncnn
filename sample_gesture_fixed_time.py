@@ -1,10 +1,8 @@
 import os
 import certifi
-from eventvision.datasets import make_dataset_precomputed
-from eventvision.datasets import get_frame_shape
-from eventvision.encoding import events_to_frame
-from eventvision.io import load_sample
-from eventvision.models import build_cnn, compile_cnn
+from eventvisioncnn.datasets import make_dataset_precomputed
+from eventvisioncnn.datasets import get_frame_shape
+from eventvisioncnn.models import build_cnn, compile_cnn
 import matplotlib.pyplot as plt
 import numpy as np
 from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
@@ -20,20 +18,15 @@ tonic.datasets.DVSGesture.test_url = "https://ndownloader.figshare.com/files/380
 gesture_train = tonic.datasets.DVSGesture(save_to='./data', train=True)
 gesture_test = tonic.datasets.DVSGesture(save_to='./data', train=False)
 
-gesture_train_ds = make_dataset_precomputed(gesture_train, strategy='fixed_time', batch_size=16, shuffle=True, augment_data=True)
-gesture_test_ds = make_dataset_precomputed(gesture_test, strategy='fixed_time', batch_size=16, shuffle=False, augment_data=False)
+gesture_train_ds_fixed_time = make_dataset_precomputed(gesture_train, strategy='fixed_time', batch_size=16, shuffle=True, augment_data=True)
+gesture_test_ds_fixed_time = make_dataset_precomputed(gesture_test, strategy='fixed_time', batch_size=16, shuffle=False, augment_data=False)
 
 gesture_frame_shape = get_frame_shape(gesture_train, strategy='fixed_time')
 all_labels = np.array([gesture_train[i][1] for i in range(len(gesture_train))])
 num_classes = len(np.unique(all_labels))
 
-gesture_cnn = build_cnn(
-    input_shape=gesture_frame_shape,
-    num_classes=num_classes,
-    extra_conv_block=True,
-    dropout_rate=0.2,
-    l2_regularization=0.0
-)
+gesture_cnn = build_cnn(input_shape=gesture_frame_shape, num_classes=num_classes, extra_conv_block=True,
+                        dropout_rate=0.2, l2_regularization=0.0)
 gesture_cnn = compile_cnn(gesture_cnn)
 gesture_cnn.summary()
 
@@ -43,14 +36,10 @@ early_stop = EarlyStopping(monitor='val_accuracy', patience=5, restore_best_weig
 # halves the learning rate whenever val_loss stopes improving for 6 epochs
 # reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=6)
 
-gesture_history = gesture_cnn.fit(
-    x=gesture_train_ds,
-    validation_data=gesture_test_ds,
-    epochs=50,
-    callbacks=[early_stop] # reduce_lr
-)
+gesture_history = gesture_cnn.fit(x=gesture_train_ds_fixed_time, validation_data=gesture_test_ds_fixed_time, epochs=50,
+                                  callbacks=[early_stop])
 
-test_loss, test_accuracy = gesture_cnn.evaluate(gesture_test_ds)
+test_loss, test_accuracy = gesture_cnn.evaluate(gesture_test_ds_fixed_time)
 print(f"Actual final test accuracy: {test_accuracy:.4f}")
 
 plt.plot(gesture_history.history['accuracy'], label='train accuracy')

@@ -1,5 +1,5 @@
 import numpy as np
-from eventvision.datasets import make_dataset
+from eventvisioncnn.datasets import make_dataset
 
 
 class FakeDataset:

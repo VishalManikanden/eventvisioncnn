@@ -1,4 +1,4 @@
-# Datasets (regenerated via tonic: see README)
+# Datasets (regenerated via tonic)
 data/
 ./data/
 
@@ -28,7 +28,7 @@ env/
 *.keras
 checkpoints/
 
-# OS-specific junk
+# OS-specific
 .DS_Store
 Thumbs.db
 

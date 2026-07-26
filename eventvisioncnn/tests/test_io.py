@@ -1,5 +1,5 @@
 import numpy as np
-from eventvision.io import standardize_events
+from eventvisioncnn.io import standardize_events
 
 def test_polarity_forced_to_0_1():
     fake_events = np.array(

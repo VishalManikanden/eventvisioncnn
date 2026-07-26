@@ -4,11 +4,11 @@ Example code for training a fixed time CNN on the NMNIST dataset
 
 import os
 import certifi
-from eventvision.datasets import make_dataset
-from eventvision.datasets import get_frame_shape
-from eventvision.encoding import events_to_frame
-from eventvision.io import load_sample
-from eventvision.models import build_cnn, compile_cnn
+from eventvisioncnn.datasets import make_dataset
+from eventvisioncnn.datasets import get_frame_shape
+from eventvisioncnn.encoding import events_to_frame
+from eventvisioncnn.io import load_sample
+from eventvisioncnn.models import build_cnn, compile_cnn
 import matplotlib.pyplot as plt
 import numpy as np
 

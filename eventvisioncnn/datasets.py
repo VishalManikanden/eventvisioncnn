@@ -1,9 +1,7 @@
 import numpy as np
 import tensorflow as tf
-from matplotlib import pyplot as plt
-
-from eventvision.io import load_sample, nmnist_train, gesture_train, gesture_test
-from eventvision.encoding import events_to_frame
+from eventvisioncnn.io import load_sample
+from eventvisioncnn.encoding import events_to_frame
 
 
 def get_frame_shape(source_dataset, strategy='fixed_time', **encoding_kwargs):
@@ -101,24 +99,3 @@ def make_dataset_precomputed(source_dataset, strategy='fixed_time', batch_size=1
     ds = ds.batch(batch_size)
     ds = ds.prefetch(tf.data.AUTOTUNE)
     return ds
-
-
-
-# g_events, g_label, g_sensor_size = load_sample(gesture_train, 0)
-# gesture_train_ds = make_dataset(gesture_train, strategy='fixed_time', batch_size=16, shuffle=True).cache()
-# gesture_test_ds = make_dataset(gesture_test, strategy='fixed_time', batch_size=16, shuffle=False).cache()
-# from eventvision.encoding import events_to_frame
-#
-# frame_full = events_to_frame(g_events, g_sensor_size, strategy='fixed_time')
-# plt.imshow(frame_full[:, :, 1], cmap='hot')
-# plt.title('DVS128 Gesture — full ~4.36s recording, ON channel')
-# # plt.show()
-#
-# t_start = g_events[:, 2].min()
-# frame_short = events_to_frame(
-#     g_events, g_sensor_size, strategy='fixed_time',
-#     t_start=t_start, t_end=t_start + 200000  # 200ms
-# )
-# plt.imshow(frame_short[:, :, 1], cmap='hot')
-# plt.title('DVS128 Gesture — first 200ms, ON channel')
-# plt.show()
