@@ -60,17 +60,19 @@ def normalize_frame(frame):
     return np.log1p(frame)
 
 
-def precompute_frames(source_dataset, strategy='fixed_time', **encoding_kwargs):
+def precompute_frames(source_dataset, encode_function):
     """
     Encodes every sample in source_dataset up front into plain NumPy arrays.
-    Only use this when the full encoded dataset comfortably fits in memory.
-    Check the size estimate before choosing this over make_dataset().
+
+    encode_function: a callable taking (events, sensor_size) and returning a frame.
+    Use functools.partial to pre-bind a specific strategy/kwargs (such as
+    partial(events_to_frame, strategy='fixed_time')) before passing it in.
     """
     frames = []
     labels = []
     for index in range(len(source_dataset)):
         events, label, sensor_size = load_sample(source_dataset, index)
-        frame = events_to_frame(events, sensor_size, strategy=strategy, **encoding_kwargs)
+        frame = encode_function(events, sensor_size)
         frames.append(normalize_frame(frame))
         labels.append(label)
 
@@ -85,9 +87,8 @@ def augment(frame, label):
     return frame, label
 
 
-def make_dataset_precomputed(source_dataset, strategy='fixed_time', batch_size=16, shuffle=True, shuffle_buffer=1000, augment_data=False,
-                              **encoding_kwargs):
-    frames, labels = precompute_frames(source_dataset, strategy=strategy, **encoding_kwargs)
+def make_dataset_precomputed(source_dataset, encode_function, batch_size=16, shuffle=True, shuffle_buffer=1000, augment_data=False):
+    frames, labels = precompute_frames(source_dataset, encode_function)
     ds = tf.data.Dataset.from_tensor_slices((frames, labels))
 
     if shuffle:
@@ -99,3 +100,4 @@ def make_dataset_precomputed(source_dataset, strategy='fixed_time', batch_size=1
     ds = ds.batch(batch_size)
     ds = ds.prefetch(tf.data.AUTOTUNE)
     return ds
+
