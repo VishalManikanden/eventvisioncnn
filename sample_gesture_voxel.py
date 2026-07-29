@@ -2,7 +2,6 @@ import os
 from functools import partial
 import certifi
 from eventvisioncnn.datasets import make_dataset_precomputed
-from eventvisioncnn.datasets import get_frame_shape
 from eventvisioncnn.encoding import events_to_frame
 from eventvisioncnn.models import build_cnn, compile_cnn
 import matplotlib.pyplot as plt
