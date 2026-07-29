@@ -3,12 +3,12 @@ import numpy as np
 
 def accumulate_counts(events, sensor_size, weights=None):
     """
+    Returns a (height, width, 2) array: channel 0 = OFF accumulation,
+    channel 1 = ON accumulation.
+
     events: (N, 4) array, columns = [x, y, t, p]
     sensor_size: (width, height)
     weights: optional (N,) array of per-event weights; defaults to 1 per event
-
-    Returns a (height, width, 2) array: channel 0 = OFF accumulation,
-    channel 1 = ON accumulation.
     """
     width, height = sensor_size
     frame = np.zeros((height, width, 2), dtype=np.float32)
@@ -31,7 +31,7 @@ def events_to_frame_fixed_time(events, sensor_size, t_start=None, t_end=None):
     """
     Accumulates all events within a fixed time window into one frame.
 
-    t_start, t_end: window bounds in the same units as the events' timestamps;
+    t_start, t_end: window bounds in the same units as the events' timestamps,
     defaults to the full time range of the given events if not specified.
     """
 
@@ -64,7 +64,7 @@ def events_to_frame_decay(events, sensor_size, tau=5000.0, t_ref=None):
 
     tau: decay time constant (same units as timestamps): smaller tau
     means older events fade out faster.
-    t_ref: reference "now" moment; defaults to the latest timestamp
+    t_ref: reference "now" moment, defaults to the latest timestamp
     in the given events.
     """
     if t_ref is None:

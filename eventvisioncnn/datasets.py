@@ -56,7 +56,7 @@ def make_dataset(source_dataset, strategy='fixed_time', batch_size=32,
 
 
 def normalize_frame(frame):
-    """Compresses the wide dynamic range of raw event counts."""
+    """Compresses the wide dynamic range of raw event counts"""
     return np.log1p(frame)
 
 

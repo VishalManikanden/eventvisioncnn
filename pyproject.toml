@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eventvisioncnn"
+version = "0.1.0"
+description = "Tool to turn asynchronous event-camera (DVS) data (per-pixel event streams) into frames ready for CNN training using multiple accumulation strategies, and benchmarks it against a normal frame-based system"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+authors = [
+    { name = "Vishal Manikanden" }
+]
+
+dependencies = [
+    "tensorflow>=2.15",
+    "numpy",
+    "matplotlib",
+    "tonic",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.setuptools.packages.find]
+include = ["eventvisioncnn*"]
