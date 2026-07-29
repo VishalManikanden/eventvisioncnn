@@ -52,4 +52,4 @@ plt.legend()
 plt.show()
 
 os.makedirs('models', exist_ok=True)
-gesture_cnn.save('models/gesture_fixed_time_cnn3.keras')
+gesture_cnn.save('models/gesture_fixed_time_dropout04.keras')

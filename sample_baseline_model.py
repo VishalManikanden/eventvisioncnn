@@ -20,11 +20,11 @@ tonic.datasets.DVSGesture.test_url = "https://ndownloader.figshare.com/files/380
 gesture_train = tonic.datasets.DVSGesture(save_to='./data', train=True)
 gesture_test = tonic.datasets.DVSGesture(save_to='./data', train=False)
 
-baseline_encode_fn = partial(events_to_conventional_frame)
+baseline_encode_function = partial(events_to_conventional_frame)
 
-gesture_train_ds_baseline = make_dataset_precomputed(gesture_train, baseline_encode_fn, batch_size=16, shuffle=True,
+gesture_train_ds_baseline = make_dataset_precomputed(gesture_train, baseline_encode_function, batch_size=16, shuffle=True,
                                                      augment_data=True)
-gesture_test_ds_baseline = make_dataset_precomputed(gesture_test, baseline_encode_fn, batch_size=16, shuffle=False,
+gesture_test_ds_baseline = make_dataset_precomputed(gesture_test, baseline_encode_function, batch_size=16, shuffle=False,
                                                     augment_data=False)
 
 baseline_frame_shape = gesture_train_ds_baseline.element_spec[0].shape[1:]
@@ -45,7 +45,6 @@ baseline_history = gesture_cnn_baseline.fit(x=gesture_train_ds_baseline, validat
 test_loss_baseline, test_accuracy_baseline = gesture_cnn_baseline.evaluate(gesture_test_ds_baseline)
 
 print(f"conventional (frame) baseline: {test_accuracy_baseline:.4f}")
-# print(f"event-based (fixed_time, best): {test_accuracy:.4f}")
 
 plt.plot(baseline_history.history['accuracy'], label='train accuracy (baseline)')
 plt.plot(baseline_history.history['val_accuracy'], label='val accuracy (baseline)')
@@ -55,4 +54,4 @@ plt.legend()
 plt.show()
 
 os.makedirs('models', exist_ok=True)
-gesture_cnn_baseline.save('models/gesture_baseline_cnn3.keras')
+gesture_cnn_baseline.save('models/gesture_baseline_dropout04.keras')

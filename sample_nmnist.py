@@ -1,6 +1,4 @@
-"""
-Example code for training a fixed time CNN on the NMNIST dataset
-"""
+# Example code for training a fixed time CNN on the NMNIST dataset
 
 import os
 import certifi

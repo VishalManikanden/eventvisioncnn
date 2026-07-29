@@ -42,7 +42,6 @@ gesture_history_voxel = gesture_cnn_voxel.fit(x=gesture_train_ds_voxel, validati
 
 test_loss_voxel, test_accuracy_voxel = gesture_cnn_voxel.evaluate(gesture_test_ds_voxel)
 print(f"voxel test accuracy: {test_accuracy_voxel:.4f}")
-# print(f"fixed_time test accuracy (previous best): {test_accuracy:.4f}")
 
 plt.plot(gesture_history_voxel.history['accuracy'], label='train accuracy (voxel)')
 plt.plot(gesture_history_voxel.history['val_accuracy'], label='val accuracy (voxel)')
@@ -52,4 +51,4 @@ plt.legend()
 plt.show()
 
 os.makedirs('models', exist_ok=True)
-gesture_cnn_voxel.save('models/gesture_voxel_cnn_5bins3.keras')
+gesture_cnn_voxel.save('models/gesture_voxel5_dropout04.keras')
