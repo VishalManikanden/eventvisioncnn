@@ -97,3 +97,6 @@ pytest eventvisioncnn/tests/
   year={2017}
 }
 ```
+
+## License
+MIT ([LICENSE](LICENSE))
