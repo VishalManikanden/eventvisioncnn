@@ -12,7 +12,7 @@ def standardize_events(events):
     t = events['t'].astype(np.int64)
     p = events['p'].astype(np.int8)
 
-    # force everything to the 0/1 convention confirmed on N-MNIST
+    # force everything to the 0/1 convention
     if p.min() == -1:
         p = (p + 1) // 2
 
@@ -21,12 +21,12 @@ def standardize_events(events):
 def load_sample(dataset, index):
     """
     Loads one sample from any tonic-style event dataset and returns it in
-    a common format, works identically for NMNIST and DVSGesture.
+    a common format, works identically for NMNIST and DVS128 Gesture.
 
     Returns:
-        events: (num_events, 4) array, columns = [x, y, t, p]
-        label: int
-        sensor_size: (width, height)
+    events: (num_events, 4) array, columns = [x, y, t, p]
+    label: actual number
+    sensor_size: (width, height)
     """
     events, label = dataset[index]
     events = standardize_events(events)

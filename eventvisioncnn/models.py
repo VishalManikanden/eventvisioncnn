@@ -5,14 +5,14 @@ from tensorflow.keras import regularizers
 def build_cnn(input_shape, num_classes, extra_conv_block=False, dropout_rate=0.0, l2_regularization=0.0):
     """
     CNN classifier for event-frame inputs, generalized to accept any input
-    shape and any number of output classes, and to work with both NMNIST and DVS Gesture
+    shape and any number of output classes, and to work with both NMNIST and DVS128 Gesture
 
     dropout_rate: regularization technique, randomly turns off dropout_rate fraction of
     neurons in the layer that follows to force the network not to over-rely on a specific
     neuron's memorized pattern
 
     l2_regularization: penalizes large weight values during training to discourage the network
-    from fitting to patterns specific to just the training dataset
+    from fitting to patterns specific to just the training dataset (overfitting)
     """
     model = tf.keras.models.Sequential()
     model.add(tf.keras.Input(shape=input_shape))
