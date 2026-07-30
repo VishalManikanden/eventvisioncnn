@@ -36,7 +36,7 @@ gesture_cnn.summary()
 early_stop = EarlyStopping(monitor='val_accuracy', patience=5, restore_best_weights=True)
 
 # halves the learning rate whenever val_loss stopes improving for 6 epochs
-# reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=6)
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=6)
 
 gesture_history = gesture_cnn.fit(x=gesture_train_ds_fixed_time, validation_data=gesture_test_ds_fixed_time, epochs=50,
                                   callbacks=[early_stop])

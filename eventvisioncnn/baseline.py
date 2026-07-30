@@ -6,7 +6,7 @@ def events_to_conventional_frame(events, sensor_size, t_start=None, t_end=None):
     Simulates what a single conventional-camera exposure would capture
     given the same physical motion the event camera recorded.
 
-    Reuses the exact same accumulation math as events_to_frame_fixed_time,
+    Reuses the exact same accumulation math as events_to_frame fixed_time,
     but collapses the on/off channels into one since a standard intensity
     sensor has no way to distinguish "got brighter" from "got darker" the
     way each DVS pixel's own circuit does, and it only reports total light.

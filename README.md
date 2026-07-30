@@ -70,7 +70,7 @@ the input encoding:
 | Voxel, 5 bins                                  | 0.746         |
 | Conventional baseline (summed, single-channel) | 0.705         |
 
-**All three event-based encodings outperformed the conventional single-channel baseline by ~4-6%.** See `benchmark_results.csv`
+**All three event-based encodings outperformed the conventional single-channel baseline by ~4-6 percentage points (~9% increase).** See `benchmark_results.csv`
 for the full results (including parameter counts and test loss). However, a separate comparison at a different dropout
 setting showed that the polarity information alone (in fixed time vs the baseline) did not reliably outperform the baseline,
 while voxel consistently did. This might mean that hyperparameter tuning or the structure of the CNN has just as large of
