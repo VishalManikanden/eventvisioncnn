@@ -1,8 +1,5 @@
 import numpy as np
 from eventvisioncnn.encoding import events_to_frame
-import matplotlib.pyplot as plt
-
-from eventvisioncnn.io import load_sample, nmnist_train
 
 
 def test_fixed_time_counts_repeated_pixel():
