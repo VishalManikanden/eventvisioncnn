@@ -11,12 +11,6 @@ def get_frame_shape(source_dataset, strategy='fixed_time', **encoding_kwargs):
 
 
 def sample_generator(source_dataset, strategy='fixed_time', shuffle_indices=False, **encoding_kwargs):
-    """
-    Creates (frame, label) pairs, one at a time, for every sample in a
-    tonic-style event dataset, converting raw events to a dense frame while shuffling the indices
-    if specified
-    """
-
     indices = np.arange(len(source_dataset))
     if shuffle_indices:
         np.random.shuffle(indices)
@@ -27,8 +21,8 @@ def sample_generator(source_dataset, strategy='fixed_time', shuffle_indices=Fals
         yield frame, label
 
 
-def make_dataset(source_dataset, strategy='fixed_time', batch_size=32,
-                  shuffle=True, shuffle_buffer=1000, **encoding_kwargs):
+def make_dataset(source_dataset, strategy='fixed_time', batch_size=32, shuffle=True, shuffle_buffer=1000,
+                 **encoding_kwargs):
     frame_shape = get_frame_shape(source_dataset, strategy=strategy, **encoding_kwargs)
 
     output_signature = (
@@ -62,7 +56,7 @@ def normalize_frame(frame):
 
 def precompute_frames(source_dataset, encode_function):
     """
-    Encodes every sample in source_dataset up front into plain NumPy arrays.
+    Encodes every sample in source_dataset up front into plain numpy arrays.
 
     encode_function: a callable taking (events, sensor_size) and returning a frame.
     Use functools.partial to pre-bind a specific strategy/kwargs (such as

@@ -50,8 +50,7 @@ def events_to_frame_fixed_count(events, sensor_size, start_idx=0, count=500):
     Accumulates a fixed number of consecutive events into one frame.
 
     Assumes events are already sorted by timestamp, so a plain index
-    slice is equal to slicing by time-order. Window duration self-adjusts
-    to motion speed, since faster motion produces the same event count in less time.
+    slice is equal to slicing by time-order.
     """
     window = events[start_idx:start_idx + count]
     return accumulate_counts(window, sensor_size)
@@ -78,9 +77,9 @@ def events_to_frame_decay(events, sensor_size, tau=5000.0, t_ref=None):
 def events_to_frame_voxel(events, sensor_size, num_bins=5):
     """
     Splits the event time range into num_bins equal intervals and
-    accumulates each into its own ON/OFF channel pair, producing a
-    (height, width, num_bins * 2) tensor — analogous to stacking
-    multiple time slices the way RGB stacks color channels.
+    accumulates each into its own ON/OFF channel pair, creating a
+    (height, width, num_bins * 2) tensor with num_bins * 2 channels, similar to stacking
+    multiple time slices the way RGB stacks 3 color channels.
     """
     width, height = sensor_size
     t_min, t_max = events[:, 2].min(), events[:, 2].max()
@@ -104,11 +103,11 @@ def events_to_frame_voxel(events, sensor_size, num_bins=5):
 
 def events_to_frame(events, sensor_size, strategy='fixed_time', **kwargs):
     """
-    Dispatches to one of the accumulation strategies above by name.
+    Calls one of the 4 accumulation strategies on the data
 
     strategy: one of 'fixed_time', 'fixed_count', 'decay', 'voxel'
-    **kwargs: forwarded to the selected strategy function
-      (e.g. tau=3000 for 'decay', num_bins=8 for 'voxel')
+    **kwargs: any relevant parameters based on the selected strategy function
+      (like tau=3000 for 'decay' or num_bins=8 for 'voxel')
     """
     strategies = {
         'fixed_time': events_to_frame_fixed_time,
