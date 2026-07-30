@@ -10,8 +10,6 @@ def events_to_conventional_frame(events, sensor_size, t_start=None, t_end=None):
     but collapses the on/off channels into one since a standard intensity
     sensor has no way to distinguish "got brighter" from "got darker" the
     way each DVS pixel's own circuit does, and it only reports total light.
-    Defaults to the full recording as one window, mirroring a low-frame-rate
-    camera trying to capture the whole event in a single shot.
     """
     if t_start is None:
         t_start = events[:, 2].min()

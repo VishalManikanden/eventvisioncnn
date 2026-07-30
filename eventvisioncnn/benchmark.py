@@ -33,10 +33,10 @@ def load_registry_models(registry):
     Loads every model referenced in a registry dict.
 
     registry: dict mapping name: {'model_path': ..., 'encode_function': ...}
-    Returns: dict mapping the same names to loaded keras model
+    Returns dict mapping the same names to the loaded keras model
     """
-    return {name: tf.keras.models.load_model(cfg['model_path'])
-            for name, cfg in registry.items()}
+    return {name: tf.keras.models.load_model(configuration['model_path'])
+            for name, configuration in registry.items()}
 
 def build_test_datasets(registry, source_dataset, batch_size=16):
     """
@@ -46,10 +46,10 @@ def build_test_datasets(registry, source_dataset, batch_size=16):
     """
     return {
         name: make_dataset_precomputed(
-            source_dataset, cfg['encode_function'],
+            source_dataset, configuration['encode_function'],
             batch_size=batch_size, shuffle=False, augment_data=False
         )
-        for name, cfg in registry.items()
+        for name, configuration in registry.items()
     }
 
 
@@ -58,8 +58,8 @@ def summarize_accuracy(models, test_datasets):
     Evaluates each model on its matching test dataset.
 
     models, test_datasets: dicts sharing the same keys (such as from
-    load_registry_models and build_test_datasets).
-    Returns a list of dicts, one row per model, suitable for a table or CSV.
+    load_registry_models and build_test_datasets)
+    Returns a list of dicts, one row per model, for a table or CSV
     """
     rows = []
     for name, model in models.items():
@@ -72,15 +72,8 @@ def summarize_accuracy(models, test_datasets):
         })
     return rows
 
-# models = load_registry_models()
-#
-# accuracy_table = summarize_accuracy(models, test_datasets)
-# for row in accuracy_table:
-#     print(row)
-
-
 def benchmark_encoding_speed(source_dataset, encode_function, num_samples=50):
-    """Average wall-clock time (seconds) to encode one sample with encode_function."""
+    """Average time (seconds) to encode one sample with encode_function."""
 
     n = min(num_samples, len(source_dataset))
     start = time.perf_counter()
@@ -93,15 +86,15 @@ def benchmark_encoding_speed(source_dataset, encode_function, num_samples=50):
 def summarize_encoding_speed(registry, source_dataset, num_samples=50):
     """Runs benchmark_encoding_speed() for every entry in a registry."""
     return {
-        name: benchmark_encoding_speed(source_dataset, cfg['encode_function'], num_samples=num_samples)
-        for name, cfg in registry.items()
+        name: benchmark_encoding_speed(source_dataset, configuration['encode_function'], num_samples=num_samples)
+        for name, configuration in registry.items()
     }
 
 def drop_events(events, drop_fraction, rng=None):
     """
-    Randomly removes a fraction of events — simulating a dimmer scene,
+    Randomly removes a fraction of events to simulate a dimmer scene,
     since fewer photons crossing each pixel's brightness-change threshold
-    means fewer events fire in low light, even for identical motion.
+    means fewer events fire in low light, even for the same motion.
     """
     if rng is None:
         rng = np.random.default_rng()
@@ -128,9 +121,9 @@ def evaluate_under_degradation(model, source_dataset, encode_function, degrade_f
     reports accuracy, measures how gracefully a model degrades, not just
     its accuracy on clean data.
 
-    degrade_function: a callable taking (events, severity) -> degraded events,
-    like drop_events or shrink_window.
-    severities: values to pass to degrade_function in turn
+    degrade_function: a callable taking (events, severity): degrading events
+    (like drop_events or shrink_window)
+    severities: values to pass to degrade_function
     Returns a dict mapping severity to accuracy
     """
     results = {}
@@ -155,8 +148,8 @@ def evaluate_under_degradation(model, source_dataset, encode_function, degrade_f
 def run_robustness_sweep(models, registry, source_dataset, dropout_severities=(0.0, 0.25, 0.5, 0.75),
                          window_severities=(1.0, 0.75, 0.5, 0.25)):
     """
-    Runs both degradation sweeps (simulated low light via drop_events,
-    simulated fast motion via shrink_window) for every model in the registry.
+    Runs both degradation sweeps (simulated low light from drop_events and
+    simulated fast motion from shrink_window) for every model in the registry.
 
     Returns (low_light_results, fast_motion_results), each a dict mapping
     model name to {severity: accuracy}.
