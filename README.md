@@ -19,7 +19,7 @@ pip install -e .
 ```
 
 ## Importing the Data
-Datasets are not including in this repo; they are fetched via the `tonic` module
+Datasets are not included in this repo; they are fetched via the `tonic` module
 
 ```python
 import os
@@ -71,11 +71,14 @@ the input encoding:
 | Conventional baseline (summed, single-channel) | 0.705         |
 
 **All three event-based encodings outperformed the conventional single-channel baseline by ~4-6%.** See `benchmark_results.csv`
-for the full results (including parameter counts and test loss)
+for the full results (including parameter counts and test loss). However, a separate comparison at a different dropout
+setting showed that the polarity information alone (in fixed time vs the baseline) did not reliably outperform the baseline,
+while voxel consistently did. This might mean that hyperparameter tuning or the structure of the CNN has just as large of
+an impact as the encoding strategy itself.
 
 ## Running Tests
 Runs the full test suite: synthetic checks on the encoding math, dataset shapes, degradation utilities, etc. None of the
-tests require the NMNIST or DVS128 Gesture datasets to be downloaded first; they use test frames/arrays.
+tests require the NMNIST or DVS128 Gesture datasets to be downloaded first since they use test frames/arrays.
 ```bash
 pytest eventvisioncnn/tests/
 ```
