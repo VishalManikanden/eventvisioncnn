@@ -19,7 +19,7 @@ pip install -e .
 ```
 
 ## Importing the Data
-Datasets are not included in this repo; they are fetched via the `tonic` module
+Datasets are not included in this repo; they are fetched with the `tonic` module
 
 ```python
 import os
