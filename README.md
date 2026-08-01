@@ -43,7 +43,7 @@ gesture_test = tonic.datasets.DVSGesture(save_to='./data', train=False)
 ```
 
 ## Sample Usage
-See the example model training frameworks (such as `sample_nmnist.py`)
+See the example model training frameworks (such as `sample_gesture_fixed_time.py`)
 
 ## Encoding Strategies
 `events_to_frame()` supports 4 accumulation strategies for converting a raw event stream into a CNN-ready frame:
@@ -70,11 +70,11 @@ the input encoding:
 | Voxel, 5 bins                                  | 0.746         |
 | Conventional baseline (summed, single-channel) | 0.705         |
 
-**All three event-based encodings outperformed the conventional single-channel baseline by ~4-6 percentage points (~9% increase).** See `benchmark_results.csv`
-for the full results (including parameter counts and test loss). However, a separate comparison at a different dropout
-setting showed that the polarity information alone (in fixed time vs the baseline) did not reliably outperform the baseline,
-while voxel consistently did. This might mean that hyperparameter tuning or the structure of the CNN has just as large of
-an impact as the encoding strategy itself.
+**All three event-based encodings outperformed the conventional single-channel baseline by ~4-6 percentage points 
+(~9% increase) when overfitting was minimized (at dropout = 0.4).** See `benchmark_results.csv`
+for the full results (including parameter counts and test loss). However, a separate comparison at different dropout
+settings showed that the polarity information alone did not give reliable results about over/underperformance compared to the baseline.
+This might mean that hyperparameter tuning or the structure of the CNN has just as large of an impact as the encoding strategy itself.
 
 ## Running Tests
 Runs the full test suite: synthetic checks on the encoding math, dataset shapes, degradation utilities, etc. None of the
